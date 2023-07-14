@@ -20,18 +20,27 @@ const Home = () => {
         </Button>
         </Link>
        
-      <Box w="80%" margin="auto" border="1px solid black">
+      <Box w="90%" margin="auto" >
         {Allusers && Allusers.length > 0
           ? Allusers.map((e) => (
               <Box
                 key={e._id}
                 display="flex"
-                padding="10px"
-                justifyContent="space-between"
+                padding="15px"
+                margin='auto'
+                textAlign='left'
+                alignItems='center'
+                boxShadow='md'
               >
+                <Box w='8cm'>
                 <Text fontSize='xl' fontWeight='md' >Name: {e.name}</Text>
+                </Box>
+                <Box textAlign='left'w='8cm'> 
                 <Text  fontSize='xl' fontWeight='md'>Email: {e.email}</Text>
+                </Box>
+                <Box w='8cm'>
                 <Text  fontSize='xl' fontWeight='md'>Number: {e.number}</Text>
+                </Box>
               </Box>
             ))
           : ""}

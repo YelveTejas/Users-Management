@@ -1,5 +1,13 @@
  const Get_users_success = 'Get_users_s'
  const Get_users_req = 'Get_users_req'
  const Get_users_error = 'Get_users_error'
-
- export {Get_users_error,Get_users_req,Get_users_success}
+ const post_user_req =  'post_user_req'
+ const post_user_success ='post_user_success'
+ const post_user_fail = 'post_user_fail'
+ const update_user_req =  'post_user_req'
+ const update_user_success ='post_user_success'
+ const update_user_fail = 'post_user_fail'
+ const delete_user_req =  'post_user_req'
+ const delete_user_success ='post_user_success'
+ const delete_user_fail = 'post_user_fail'
+ export {Get_users_error,Get_users_req,Get_users_success,post_user_fail,post_user_req,post_user_success,update_user_fail,update_user_req,update_user_success,delete_user_fail,delete_user_req,delete_user_success}

@@ -17,11 +17,13 @@ import {
   Tr,
 } from "@chakra-ui/react";
 const Showdata = ({user}) => {
+
+
   return (
     <div>
       <Box w="90%" margin="auto" mt="1cm">
         <TableContainer>
-          <Table>
+          <Table variant='striped' colorScheme='gray'>
             <TableCaption>All Users</TableCaption>
             <Thead>
               <Tr>
@@ -38,7 +40,7 @@ const Showdata = ({user}) => {
                   <Td>{e._id}</Td>
                   <Td>{e.name}</Td>
                   <Td>
-                    <Button>Edit </Button>
+                    <Button >Edit </Button>
                   </Td>
                   <Td>
                     <Button>View</Button>
