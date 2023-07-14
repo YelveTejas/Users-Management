@@ -22,6 +22,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Deleteuser, Getusers, Postuser, Updateuser } from "../Redux/actions";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 const initialdata = {
   name: "",
   email: "",
@@ -30,6 +32,8 @@ const initialdata = {
 const Adduser = () => {
   const [toggle, setToggle] = useState(false);
   const [data, setData] = useState(initialdata);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState(null);
   const dispatch = useDispatch();
   const Allusers = useSelector((store) => store.users);
   useEffect(() => {
@@ -39,17 +43,39 @@ const Adduser = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const postdata = () => {
-    dispatch(Postuser(data));
+    if(!data.name){
+      toast.info('Name field is required')
+       return
+    }
+    if (!data.number) {
+      toast.info('Number field is required');
+      return;
+    }
+    if(!data.email){
+      toast.info('Email field in required')
+       return
+    }
+    if(isEditing){
+      dispatch(Updateuser(editData._id,data))
+      setIsEditing(false)
+      setEditData(null)
+      setData(initialdata)
+    }else{
+       dispatch(Postuser(data));
+       setData(initialdata)
+    }
 
     setToggle((pre) => !pre);
   };
- const removeuser=(id)=>{
-  dispatch(Deleteuser(id))
-  setToggle((pre) => !pre)
- }
-  const handleEdit=()=>{
-
-  }
+  const removeuser = (id) => {
+    dispatch(Deleteuser(id));
+    setToggle((pre) => !pre);
+  };
+  const handleEdit = (user) => {
+   setData(user)
+   setIsEditing(true)
+   setEditData(user)
+  };
 
   return (
     <div>
@@ -70,21 +96,26 @@ const Adduser = () => {
             onChange={(e) => handleChaneg(e)}
             name="name"
             placeholder="Enter Name"
+            value={data.name}
           ></Input>
           <FormLabel mt="10px">Email</FormLabel>
           <Input
             onChange={(e) => handleChaneg(e)}
             name="email"
             placeholder="Enter Email"
+            value={data.email}
           ></Input>
           <FormLabel mt="10px">Phone No.</FormLabel>
           <Input
             onChange={(e) => handleChaneg(e)}
             name="number"
+            type='number'
+            maxLength="10"
             placeholder="Enter your Number"
+            value={data.number}
           ></Input>
           <Button mt="10px" w="full" onClick={() => postdata()}>
-            Add
+          {isEditing ? "Update" : "Add"}
           </Button>
         </FormControl>
       </Box>
@@ -111,12 +142,11 @@ const Adduser = () => {
                   </Td>
                   <Td>
                     <Link to={`/details/${e._id}`}>
-                    <Button>View</Button>
+                      <Button>View</Button>
                     </Link>
-                   
                   </Td>
                   <Td>
-                    <Button onClick={()=>removeuser(e._id)}>Delete</Button>
+                    <Button onClick={() => removeuser(e._id)}>Delete</Button>
                   </Td>
                 </Tr>
               ))}

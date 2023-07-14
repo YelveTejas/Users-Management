@@ -1,55 +1,65 @@
-import { withDefaultSize } from "@chakra-ui/react"
-import { Get_users_error, Get_users_req, Get_users_success, delete_user_req, delete_user_success, post_user_fail, post_user_req, post_user_success, update_user_req, update_user_success } from "./actiontypes"
-import axios from 'axios'
+import { withDefaultSize } from "@chakra-ui/react";
+import {
+  Get_users_error,
+  Get_users_req,
+  Get_users_success,
+ 
+} from "./actiontypes";
+import axios from "axios";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-const Getusers=()=>(dispatch)=>{
-    dispatch({type:Get_users_req})
-    return axios.get('http://localhost:4500/get')
-    .then((res)=>{
-        dispatch({type:Get_users_success,payload:res.data})
-    }).catch((err)=>{
-        console.log(err)
-        dispatch({type:Get_users_error})
+const Getusers = () => (dispatch) => {
+  dispatch({ type: Get_users_req });
+  return axios
+    .get("https://user-management-2-gyzx.onrender.com/get")
+    .then((res) => {
+      dispatch({ type: Get_users_success, payload: res.data });
     })
-}
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: Get_users_error });
+    });
+};
 
-const Postuser=(data)=>(dispatch)=>{
-    dispatch({type:post_user_req})
-    return axios.post('http://localhost:4500/post',data)
-    .then((res)=>{
-        console.log(res)
-        dispatch({type:post_user_success})
-
-    }).catch((err)=>{
-        console.log(err)
-        dispatch({type:post_user_fail})
+const Postuser = (data) => (dispatch) => {
+  return axios
+    .post("https://user-management-2-gyzx.onrender.com/post", data)
+    .then((res) => {
+       if(res){
+        toast.success('User Posted Successfully')
+       }
     })
-}
+    .catch((err) => {
+      console.log(err);
+      toast.error('Error while posting user')
+    });
+};
 
-const Updateuser=(id,data)=>(dispatch)=>{
-    console.log(id,'id',data,'data')
-    dispatch({type:update_user_req})
-    return axios.put(`http://localhost:4500/edit/${id}`,data)
-    .then((res)=>{
-        console.log(res,'updated Data')
+const Updateuser = (id, data) => (dispatch) => {
+  console.log(id, "id", data, "data");
 
-        dispatch({type:update_user_success})
-
-    }).catch((err)=>{
-        console.log(err,'error')
+  return axios
+    .put(`https://user-management-2-gyzx.onrender.com/update/${id}`, data)
+    .then((res) => {
+      console.log(res, "updated Data");
+      toast.success('User Updated Successfully')
     })
-}
-
-const Deleteuser=(id)=>(dispatch)=>{
-    dispatch({type:delete_user_req})
-    return axios.delete(`http://localhost:4500/delete/${id}`)
-    .then((res)=>{
-        console.log('Deleted',res)
-        dispatch({type:delete_user_success})
-
-    }).catch((err)=>{
-        console.log(err)
+    .catch((err) => {
+      console.log(err, "error");
+    });
+};
+const Deleteuser = (id) => (dispatch) => {
+  return axios
+    .delete(`https://user-management-2-gyzx.onrender.com/delete/${id}`)
+    .then((res) => {
+      console.log("Deleted", res);
+      toast.success('User Deleted')
     })
-}
+    .catch((err) => {
+      console.log(err);
+      toast.error('Error while deleting user')
+    });
+};
 
-export {Getusers,Postuser,Updateuser,Deleteuser}
+export { Getusers, Postuser, Updateuser, Deleteuser };

@@ -7,9 +7,9 @@ const Details = () => {
     const [data,setDate] = useState({})
     const {id} = useParams()
  useEffect(()=>{
-    axios.get(`http://localhost:4500/details/${id}`)
+    axios.get(`https://user-management-2-gyzx.onrender.com/details/${id}`)
     .then((res)=>{
-      console.log(res)
+      
       setDate(res.data)
     })
  },[])
